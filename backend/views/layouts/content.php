@@ -5,6 +5,8 @@ use dmstr\widgets\Alert;
 ?>
 <div class="content-wrapper">
     <section class="content-header">
+
+        <?php if (false) : ?>
         <?php if (isset($this->blocks['content-header'])) { ?>
             <h1><?= $this->blocks['content-header'] ?></h1>
         <?php } else { ?>
@@ -20,6 +22,7 @@ use dmstr\widgets\Alert;
                 } ?>
             </h1>
         <?php } ?>
+        <?php endif; ?>
 
         <?=
         Breadcrumbs::widget(
