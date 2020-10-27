@@ -11,7 +11,7 @@ $this->title = 'My Yii Application';
 
         <div class="row">
             <div class="col-md-6">
-                <h2>NYSE</h2>
+                <h2>NYSE (New York)</h2>
                 <?= CountdownWidget::widget([
                     'id'=>'nyse',
                     'stock'=>'NYSE',
@@ -19,10 +19,10 @@ $this->title = 'My Yii Application';
 
             </div>
             <div class="col-md-6">
-                <h2>NASDAQ</h2>
+                <h2>TSE / TYO (Tokyo)</h2>
                 <?= CountdownWidget::widget([
-                    'id'=>'nasdaq',
-                    'stock'=>'NASDAQ',
+                    'id'=>'tse',
+                    'stock'=>'TSE/TYO',
                 ]) ?>
 
             </div>

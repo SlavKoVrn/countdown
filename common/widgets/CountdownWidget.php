@@ -55,8 +55,12 @@ class CountdownWidget extends Widget
                    data:{id:'$this->id'},
                    dataType:'json'
                 }).done(function (data) {
+                    console.log(data);
                     window.type_$this->id = data.type;
                     window.miliseconds_$this->id = data.miliseconds;
+                    var Moscow = document.getElementById('$this->id-Moscow');
+                    var moscowSpan = Moscow.querySelector('.Moscow');
+                    moscowSpan.innerHTML = data.moscow;
                     initCountDown_$this->id();
                 });
             };
@@ -122,7 +126,8 @@ class CountdownWidget extends Widget
                     getRest_$this->id();
                 }
                 if (t.total <= 0) {
-                  clearInterval(timeinterval_$this->id);
+                    clearInterval(timeinterval_$this->id);
+                    getRest_$this->id();
                 }
               }
              
@@ -133,8 +138,6 @@ class CountdownWidget extends Widget
             function initCountDown_$this->id(){
                 window.current_$this->id = 0;
                 var deadline = new Date(Date.parse(new Date()) + parseInt(window.miliseconds_$this->id));
-                console.log('$this->id');
-                console.log(deadline);
                 initializeClock_$this->id('$this->id-countdown', deadline);
             }
 
@@ -143,6 +146,11 @@ JS;
 
         $css = <<<CSS
 
+            .Moscow {
+              font-family: sans-serif;
+              font-size: 20px;
+            }
+             
             .stock {
               font-family: sans-serif;
               font-size: 20px;
