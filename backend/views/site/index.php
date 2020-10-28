@@ -1,5 +1,6 @@
 <?php
 use common\widgets\CountdownWidget;
+use common\models\StockExchange;
 
 /* @var $this yii\web\View */
 
@@ -11,20 +12,12 @@ $this->title = 'My Yii Application';
 
         <div class="row">
             <div class="col-md-6">
-                <h2>NYSE (New York)</h2>
-                <?= CountdownWidget::widget([
-                    'id'=>'nyse',
-                    'stock'=>'NYSE',
-                ]) ?>
-
+                <h2><?= StockExchange::STOCK_EXCHANGE['nyse']['name'].' ('.StockExchange::STOCK_EXCHANGE['nyse']['city'].')' ?></h2>
+                <?= CountdownWidget::widget([ 'id'=>'nyse' ]) ?>
             </div>
             <div class="col-md-6">
-                <h2>TSE / TYO (Tokyo)</h2>
-                <?= CountdownWidget::widget([
-                    'id'=>'tse',
-                    'stock'=>'TSE/TYO',
-                ]) ?>
-
+                <h2><?= StockExchange::STOCK_EXCHANGE['tse']['name'].' ('.StockExchange::STOCK_EXCHANGE['tse']['city'].')' ?></h2>
+                <?= CountdownWidget::widget([ 'id'=>'tse']) ?>
             </div>
         </div>
 

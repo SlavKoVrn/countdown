@@ -1,6 +1,8 @@
 <?php
 namespace common\widgets;
 
+use common\models\StockExchange;
+
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Url;
@@ -9,16 +11,19 @@ class CountdownWidget extends Widget
 {
 
 	public $id = '';
-	public $stock = '';
+
+    private $name = '';
+    private $city = '';
     private $on;
     private $off;
     private $red;
 
 	public function init()
 	{
-
 		parent::init();
 
+        $this->name = StockExchange::STOCK_EXCHANGE[$this->id]['name'];
+        $this->city = StockExchange::STOCK_EXCHANGE[$this->id]['city'];
 	}
 
 	public function run()
@@ -30,7 +35,8 @@ class CountdownWidget extends Widget
 
 		return $this->render('countdown', [
 			'id' => $this->id,
-			'stock' => $this->stock,
+            'name' => $this->name,
+            'city' => $this->city,
             'on' => $this->on,
             'off' => $this->off,
             'red' => $this->red,

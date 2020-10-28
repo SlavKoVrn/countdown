@@ -10,10 +10,12 @@ use DateInterval;
 /**
  * CountDown stock exchange
  */
-class CountDown extends Model
+class StockExchange extends Model
 {
-    const SHEDULE = [
+    const STOCK_EXCHANGE = [
         'nyse'=> [
+            'name' => 'NYSE',
+            'city' => 'New York',
             'DateTimeZone' => 'America/New_York',
             'week'=>[
                 0 => '00:00:00-00:00:00',
@@ -26,6 +28,8 @@ class CountDown extends Model
             ],
         ],
         'tse'=> [
+            'name' => 'TSE / TYO',
+            'city' => 'Tokyo',
             'DateTimeZone' => 'Asia/Tokyo',
             'week'=>[
                 0 => '00:00:00-00:00:00',
@@ -43,9 +47,9 @@ class CountDown extends Model
      * @param $stockExchange
      * @return array
      */
-    public static function getRest($stockExchange):array
+    public static function getCountDownTimeRest($stockExchange):array
     {
-        $dateTimeZoneRequest = new DateTimeZone(self::SHEDULE[$stockExchange]['DateTimeZone']);
+        $dateTimeZoneRequest = new DateTimeZone(self::STOCK_EXCHANGE[$stockExchange]['DateTimeZone']);
         $dateTimeZoneMoscow = new DateTimeZone('Europe/Moscow');
         $dateTimeRequest = new DateTime("now", $dateTimeZoneRequest);
 
@@ -57,7 +61,7 @@ class CountDown extends Model
         $first = true;
         while (true){
             $today = getdate(strtotime($tempDateTime->format('Y-m-d H:i:s')));
-            $work = self::SHEDULE[$stockExchange]['week'][$today['wday']];
+            $work = self::STOCK_EXCHANGE[$stockExchange]['week'][$today['wday']];
             list($begin_time,$end_time) = explode('-',$work);
             $begin = explode(':',$begin_time);
             $end = explode(':',$end_time);
@@ -83,7 +87,7 @@ class CountDown extends Model
             }
             $tempDateTime->add(new DateInterval('P1D'));
             $today = getdate(strtotime($tempDateTime->format('Y-m-d H:i:s')));
-            $work = self::SHEDULE[$stockExchange]['week'][$today['wday']];
+            $work = self::STOCK_EXCHANGE[$stockExchange]['week'][$today['wday']];
             list($begin_time,$end_time) = explode('-',$work);
             $begin = explode(':',$begin_time);
             $begin_datetime = clone $tempDateTime;

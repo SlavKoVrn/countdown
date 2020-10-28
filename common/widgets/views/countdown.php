@@ -4,7 +4,7 @@
         <img id="<?= $id ?>-off" src="<?= $off ?>" style="display:none;float:left;" />
         <img id="<?= $id ?>-red" src="<?= $red ?>" style="display:none;float:left;" />
         <span id="<?= $id ?>-countdown" style="padding-top:50px;color:white">Торги на
-            <span class="stock"><?= $stock ?></span>
+            <span class="stock"><?= $name ?></span>
             <span class="state"></span> через
             <span class="days"></span>
             <span class="hours"></span>

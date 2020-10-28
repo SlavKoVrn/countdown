@@ -1,7 +1,7 @@
 <?php
 namespace backend\controllers;
 
-use common\models\CountDown;
+use common\models\StockExchange;
 
 use Yii;
 use yii\web\Controller;
@@ -16,6 +16,6 @@ class CountdownController extends Controller
      */
     public function actionGetRest()
     {
-        return json_encode(CountDown::getRest($_GET['id']));
+        return json_encode(StockExchange::getCountDownTimeRest($_GET['id']));
     }
 }
