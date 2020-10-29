@@ -13,6 +13,16 @@ use kartik\datetime\DateTimePicker;
 
 $this->title = 'Рабочие праздничные дни';
 $this->params['breadcrumbs'][] = $this->title;
+
+if (isset($searchModel->begin) or isset($searchModel->end)){
+    $filter = 'Поиск по дате: ';
+    if (isset($searchModel->begin) and $searchModel->begin>0){
+        $filter .= 'с '.date('d.m.Y H:i',strtotime($searchModel->begin));
+    }
+    if (isset($searchModel->end) and $searchModel->end>0){
+        $filter .= ' по '.date('d.m.Y H:i',strtotime($searchModel->end));
+    }
+}
 ?>
 <div class="work-holiday-index">
 
@@ -28,6 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'panel' => [
+            'heading'=>$filter,
+        ],
         'rowOptions' => function ($model, $key, $index, $grid) {
             if ($model->holiday == 1)
                 $style='background:#f6b9b9';
@@ -55,10 +68,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => $searchModel->createTimeStart,
                     'attribute' => 'begin',
                     'pluginOptions' => [
-                        'format' => 'yyyy-mm-dd HH:ii' ,
+                        'format' => 'yyyy-mm-dd HH:00' ,
                         'Highlight' => true,
                         'todayHighlight' => true,
                         'autoclose'=>true,
+                        'readOnly'=>true,
+                        'minView' => 1,
                     ]
                 ]),
                 'value'=>function($model){
@@ -72,10 +87,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => $searchModel->end,
                     'attribute' => 'end',
                     'pluginOptions' => [
-                        'format' => 'yyyy-mm-dd HH:ii' ,
+                        'format' => 'yyyy-mm-dd HH:59' ,
                         'Highlight' => true,
                         'todayHighlight' => true,
                         'autoclose'=>true,
+                        'readOnly'=>true,
+                        'minView' => 1,
                     ]
                 ]),
                 'value'=>function($model){
