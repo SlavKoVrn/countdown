@@ -55,14 +55,12 @@ class WorkHolidaySearch extends WorkHoliday
             return $dataProvider;
         }
 
-        if (isset($params['WorkHolidaySearch']['begin']) and $params['WorkHolidaySearch']['begin'] !== ''){
-            $from = strtotime($params['WorkHolidaySearch']['begin'].' 00:00:00');
-            $query->andFilterWhere([ '>=', new Expression('UNIX_TIMESTAMP(begin)'), $from ]);
+        if (isset($this->begin)){
+            $query->andFilterWhere([ '>=', 'begin', $this->begin ]);
         }
 
-        if (isset($params['WorkHolidaySearch']['end']) and $params['WorkHolidaySearch']['end'] !== ''){
-            $to = strtotime($params['WorkHolidaySearch']['end'].' 23:59:59');
-            $query->andFilterWhere([ '<=', new Expression('UNIX_TIMESTAMP(end)'), $to ]);
+        if (isset($this->end)){
+            $query->andFilterWhere([ '<=', 'end', $this->end ]);
         }
 
         // grid filtering conditions

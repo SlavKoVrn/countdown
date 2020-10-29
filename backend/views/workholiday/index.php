@@ -5,7 +5,7 @@ use common\models\WorkHoliday;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use kartik\grid\GridView;
-use kartik\date\DatePicker;
+use kartik\datetime\DateTimePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\WorkHolidaySearch */
@@ -39,12 +39,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'begin',
-                'filter' => DatePicker::widget([
+                'filter' => DateTimePicker::widget([
                     'model' => $searchModel,
                     'value' => $searchModel->createTimeStart,
                     'attribute' => 'begin',
                     'pluginOptions' => [
-                        'format' => 'dd.mm.yy' ,
+                        'format' => 'yyyy-mm-dd HH:ii' ,
                         'Highlight' => true,
                         'todayHighlight' => true,
                         'autoclose'=>true,
@@ -56,12 +56,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'end',
-                'filter' => DatePicker::widget([
+                'filter' => DateTimePicker::widget([
                     'model' => $searchModel,
                     'value' => $searchModel->end,
                     'attribute' => 'end',
                     'pluginOptions' => [
-                        'format' => 'dd.mm.yy' ,
+                        'format' => 'yyyy-mm-dd HH:ii' ,
                         'Highlight' => true,
                         'todayHighlight' => true,
                         'autoclose'=>true,
