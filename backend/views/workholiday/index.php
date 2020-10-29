@@ -14,7 +14,9 @@ use kartik\datetime\DateTimePicker;
 $this->title = 'Рабочие праздничные дни';
 $this->params['breadcrumbs'][] = $this->title;
 
-if (isset($searchModel->begin) or isset($searchModel->end)){
+$filter = '';
+if ((isset($searchModel->begin) and $searchModel->begin>0) or
+    (isset($searchModel->end) and $searchModel->end>0)){
     $filter = 'Поиск по дате: ';
     if (isset($searchModel->begin) and $searchModel->begin>0){
         $filter .= 'с '.date('d.m.Y H:i',strtotime($searchModel->begin));
