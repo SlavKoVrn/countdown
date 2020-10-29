@@ -28,6 +28,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'rowOptions' => function ($model, $key, $index, $grid) {
+            if ($model->holiday == 1)
+                $style='background:#f6b9b9';
+            else
+                $style='background:#bef6b9';
+            if ($model->status == 0)
+                $style='background:#cfcfcf';
+            return [
+                'style' => $style
+            ];
+        },
         'columns' => [
             'name',
             [
