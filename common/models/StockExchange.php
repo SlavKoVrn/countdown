@@ -12,8 +12,10 @@ use DateInterval;
  */
 class StockExchange extends Model
 {
+    const STOCK_EXCHANGE_NYSE = 'nyse';
+    const STOCK_EXCHANGE_TSE = 'tse';
     const STOCK_EXCHANGE = [
-        'nyse'=> [
+        self::STOCK_EXCHANGE_NYSE => [
             'name' => 'NYSE',
             'city' => 'New York',
             'DateTimeZone' => 'America/New_York',
@@ -27,7 +29,7 @@ class StockExchange extends Model
                 6 => '00:00:00-00:00:00',
             ],
         ],
-        'tse'=> [
+        self::STOCK_EXCHANGE_TSE => [
             'name' => 'TSE / TYO',
             'city' => 'Tokyo',
             'DateTimeZone' => 'Asia/Tokyo',
@@ -42,6 +44,15 @@ class StockExchange extends Model
             ],
         ],
     ];
+
+    public static function getStockExchangeArray()
+    {
+        $array = [];
+        foreach (self::STOCK_EXCHANGE as $key => $stock){
+            $array[$key] = $stock['name'].' ('.$stock['DateTimeZone'].')';
+        }
+        return $array;
+    }
 
     /**
      * @param $stockExchange

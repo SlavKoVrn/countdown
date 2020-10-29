@@ -12,12 +12,14 @@ $this->title = 'My Yii Application';
 
         <div class="row">
             <div class="col-md-6">
-                <h2><?= StockExchange::STOCK_EXCHANGE['nyse']['name'].' ('.StockExchange::STOCK_EXCHANGE['nyse']['city'].')' ?></h2>
-                <?= CountdownWidget::widget([ 'id'=>'nyse' ]) ?>
+                <h2><?= StockExchange::STOCK_EXCHANGE[StockExchange::STOCK_EXCHANGE_NYSE]['name'].
+                    ' ('.StockExchange::STOCK_EXCHANGE[StockExchange::STOCK_EXCHANGE_NYSE]['city'].')' ?></h2>
+                <?= CountdownWidget::widget([ 'id'=>StockExchange::STOCK_EXCHANGE_NYSE ]) ?>
             </div>
             <div class="col-md-6">
-                <h2><?= StockExchange::STOCK_EXCHANGE['tse']['name'].' ('.StockExchange::STOCK_EXCHANGE['tse']['city'].')' ?></h2>
-                <?= CountdownWidget::widget([ 'id'=>'tse']) ?>
+                <h2><?= StockExchange::STOCK_EXCHANGE[StockExchange::STOCK_EXCHANGE_TSE]['name'].
+                    ' ('.StockExchange::STOCK_EXCHANGE[StockExchange::STOCK_EXCHANGE_TSE]['city'].')' ?></h2>
+                <?= CountdownWidget::widget([ 'id'=>StockExchange::STOCK_EXCHANGE_TSE]) ?>
             </div>
         </div>
 
