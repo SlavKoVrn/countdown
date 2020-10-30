@@ -3,6 +3,7 @@ namespace common\models;
 
 use Yii;
 use yii\base\Model;
+use yii\db\Expression;
 use DateTimeZone;
 use DateTime;
 use DateInterval;
@@ -45,13 +46,48 @@ class StockExchange extends Model
         ],
     ];
 
-    public static function getStockExchangeArray()
+    public static function getStockExchangeArray():array
     {
         $array = [];
         foreach (self::STOCK_EXCHANGE as $key => $stock){
             $array[$key] = $stock['name'].' ('.$stock['DateTimeZone'].')';
         }
         return $array;
+    }
+
+    private static function getDay($datetime,$stockExchange):array
+    {
+        $sql=<<<SQL
+          SELECT * FROM work_holiday 
+          WHERE DATE(begin) >= DATE(:datetime)
+          AND DATE(end) <= DATE(:datetime)
+          AND stock = :stock
+          AND status = :status
+SQL;
+        $status = WorkHoliday::ENABLE_DAY;
+        $period = Yii::$app->db
+            ->createCommand($sql)
+            ->bindParam(':datetime',$datetime)
+            ->bindParam(':stock',$stockExchange)
+            ->bindParam(':status',$status)
+            ->queryOne();
+
+        $holiday = $period['holiday'];
+        if ($holiday == WorkHoliday::HOLIDDAY){
+            $begin_time = '00:00:00';
+            $end_time = '00:00:00';
+        }else{
+            $period_begin = new DateTime($period['begin']);
+            $begin_time = $period_begin->format('H:i:s');
+            $period_end = new DateTime($period['end']);
+            $end_time = $period_end->format('H:i:s');
+        }
+
+        return [
+            'holiday'=>$holiday,
+            'begin_time'=>$begin_time,
+            'end_time'=>$end_time,
+        ];
     }
 
     /**
@@ -71,9 +107,15 @@ class StockExchange extends Model
         $step = 0;
         $first = true;
         while (true){
-            $today = getdate(strtotime($tempDateTime->format('Y-m-d H:i:s')));
-            $work = self::STOCK_EXCHANGE[$stockExchange]['week'][$today['wday']];
-            list($begin_time,$end_time) = explode('-',$work);
+            $day = self::getDay($tempDateTime->format('Y-m-d H:i:s'),$stockExchange);
+            if ($day['holiday']>0){
+                $begin_time = $day['begin_time'];
+                $end_time = $day['end_time'];
+            }else{
+                $today = getdate(strtotime($tempDateTime->format('Y-m-d H:i:s')));
+                $work = self::STOCK_EXCHANGE[$stockExchange]['week'][$today['wday']];
+                list($begin_time,$end_time) = explode('-',$work);
+            }
             $begin = explode(':',$begin_time);
             $end = explode(':',$end_time);
             $begin_datetime = clone $tempDateTime;
@@ -96,10 +138,17 @@ class StockExchange extends Model
                     }
                 }
             }
+            //------------------------------------------
             $tempDateTime->add(new DateInterval('P1D'));
-            $today = getdate(strtotime($tempDateTime->format('Y-m-d H:i:s')));
-            $work = self::STOCK_EXCHANGE[$stockExchange]['week'][$today['wday']];
-            list($begin_time,$end_time) = explode('-',$work);
+            //------------------------------------------
+            $day = self::getDay($tempDateTime->format('Y-m-d H:i:s'),$stockExchange);
+            if ($day['holiday']>0){
+                $begin_time = $day['begin_time'];
+            }else{
+                $today = getdate(strtotime($tempDateTime->format('Y-m-d H:i:s')));
+                $work = self::STOCK_EXCHANGE[$stockExchange]['week'][$today['wday']];
+                list($begin_time,$end_time) = explode('-',$work);
+            }
             $begin = explode(':',$begin_time);
             $begin_datetime = clone $tempDateTime;
             $begin_datetime->setTime($begin[0],$begin[1],$begin[2]);

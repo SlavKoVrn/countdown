@@ -79,7 +79,7 @@ if ((isset($searchModel->begin) and $searchModel->begin>0) or
                     ]
                 ]),
                 'value'=>function($model){
-                    return date('d.m.Y H:i',strtotime($model->begin));
+                    return date(($model->holiday==WorkHoliday::HOLIDDAY)?'d.m.Y':'d.m.Y H:i',strtotime($model->begin));
                 }
             ],
             [
@@ -98,7 +98,7 @@ if ((isset($searchModel->begin) and $searchModel->begin>0) or
                     ]
                 ]),
                 'value'=>function($model){
-                    return date('d.m.Y H:i',strtotime($model->end));
+                    return date(($model->holiday==WorkHoliday::HOLIDDAY)?'d.m.Y':'d.m.Y H:i',strtotime($model->end));
                 }
             ],
             [

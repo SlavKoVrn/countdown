@@ -4,7 +4,6 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use kartik\daterange\DateRangeBehavior;
 
 /**
  * This is the model class for table "{{%work_holiday}}".
