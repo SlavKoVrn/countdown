@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'holiday',
+                'contentOptions' => ['style'=> ($model->holiday == WorkHoliday::HOLIDDAY)?'background:#f6b9b9':'background:#bef6b9'],
                 'value' => function ($model){
                     return WorkHoliday::CHOOSE_DAY_ARRAY[$model->holiday];
                 }
@@ -58,6 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'status',
+                'contentOptions' => ['style'=> ($model->status == WorkHoliday::ENABLE_DAY)?'':'background:#cfcfcf'],
                 'value'=>function($model){
                     return WorkHoliday::CHOOSE_ENABLED_ARRAY[$model->status];
                 }
