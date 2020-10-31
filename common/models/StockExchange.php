@@ -168,4 +168,37 @@ SQL;
             'moscow'=>$moscow->format('d.m.Y H:i:s'),
         ];
     }
+
+    public static function getWorkHolidaysThisYear()
+    {
+        $sql=<<<SQL
+          SELECT * FROM work_holiday 
+          WHERE begin >= :beginYear
+          AND   end   <= :endYear
+          AND   status = :status
+          ORDER BY begin, end
+SQL;
+        $status = WorkHoliday::ENABLE_DAY;
+        $beginYear = date('Y').'-01-01 00:00:00';
+        $endYear = date('Y').'-12-31 23:59:59';
+        $days = Yii::$app->db
+            ->createCommand($sql)
+            ->bindParam(':status',$status)
+            ->bindParam(':beginYear',$beginYear)
+            ->bindParam(':endYear',$endYear)
+            ->queryAll();
+
+        $year = [];
+        foreach($days as $day){
+            $year[$day['stock']][]=[
+                'name' => $day['name'],
+                'holiday' => $day['holiday'],
+                'begin' => $day['begin'],
+                'end' => $day['end'],
+            ];
+        }
+
+        return $year;
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use common\models\StockExchange;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -60,7 +61,16 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $items = [];
+        $workHolidays = StockExchange::getWorkHolidaysThisYear();
+        foreach ($workHolidays as $stock => $days){
+            $items[] = [
+                'label' => StockExchange::STOCK_EXCHANGE[$stock]['name'].' ('.StockExchange::STOCK_EXCHANGE[$stock]['DateTimeZone'].')',
+                'content'=> $this->renderPartial('table',['days'=>$days]),
+            ];
+        }
+
+        return $this->render('index',['items'=>$items]);
     }
 
     /**
